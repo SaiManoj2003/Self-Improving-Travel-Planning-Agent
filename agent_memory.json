@@ -1,0 +1,462 @@
+{
+  "run_counter": 10,
+  "learned_constraints": [
+    {
+      "pattern_key": "missing_required_tool:Required tool 'check_weather' was not used",
+      "constraint": "ALWAYS use the required tool mentioned: Required tool 'check_weather' was not used (learned from 2 past mistakes)",
+      "occurrences": 2,
+      "created_at": "2026-01-10T10:15:42.123456"
+    },
+    {
+      "pattern_key": "wrong_sequence:Hotels were recommended before searching for flights",
+      "constraint": "Follow the correct tool sequence: Hotels were recommended before searching for flights (learned from 2 past mistakes)",
+      "occurrences": 2,
+      "created_at": "2026-01-10T10:16:15.789012"
+    }
+  ],
+  "mistake_patterns": {
+    "missing_required_tool:Required tool 'check_weather' was not used": 2,
+    "wrong_sequence:Hotels were recommended before searching for flights": 2,
+    "too_early_answer:Agent provided final answer after only 1 tool calls": 1
+  },
+  "execution_history": [
+    {
+      "run_id": 1,
+      "task": "Help me plan a 5-day trip to Paris, France. I need to know about weather, flights from New York, hotels, and activities.",
+      "timestamp": "2026-01-10T10:15:20.123456",
+      "tool_calls": [
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "New York",
+            "destination": "Paris"
+          },
+          "output": "{\"origin\": \"New York\", \"destination\": \"Paris\", \"flights\": [{\"airline\": \"AirTravel\", \"price\": 500, \"departure\": \"10:00\", \"duration\": \"7h\"}]}",
+          "order": 1
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Paris",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Paris\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Grand Hotel\", \"price_per_night\": 150, \"rating\": 4.2}]}",
+          "order": 2
+        }
+      ],
+      "final_answer": "I can help you plan your Paris trip. Based on flights and hotels, I recommend the Grand Hotel at $150/night and AirTravel flights at $500.",
+      "success": false,
+      "mistakes": [
+        {
+          "type": "missing_required_tool",
+          "description": "Required tool 'check_weather' was not used",
+          "step": null,
+          "timestamp": "2026-01-10T10:15:21.234567"
+        },
+        {
+          "type": "too_early_answer",
+          "description": "Agent provided final answer after only 2 tool calls",
+          "step": 2,
+          "timestamp": "2026-01-10T10:15:21.345678"
+        }
+      ]
+    },
+    {
+      "run_id": 2,
+      "task": "I want to visit Tokyo for 4 days. Please help me plan everything including weather check, flights from Los Angeles, accommodation, and itinerary.",
+      "timestamp": "2026-01-10T10:15:35.123456",
+      "tool_calls": [
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Tokyo",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Tokyo\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"City View Inn\", \"price_per_night\": 120, \"rating\": 4.5}]}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Los Angeles",
+            "destination": "Tokyo"
+          },
+          "output": "{\"origin\": \"Los Angeles\", \"destination\": \"Tokyo\", \"flights\": [{\"airline\": \"SkyHigh\", \"price\": 800, \"departure\": \"14:00\", \"duration\": \"11h\"}]}",
+          "order": 2
+        }
+      ],
+      "final_answer": "For your Tokyo trip, I recommend City View Inn at $120/night and SkyHigh flights at $800.",
+      "success": false,
+      "mistakes": [
+        {
+          "type": "missing_required_tool",
+          "description": "Required tool 'check_weather' was not used",
+          "step": null,
+          "timestamp": "2026-01-10T10:15:36.234567"
+        },
+        {
+          "type": "wrong_sequence",
+          "description": "Hotels were recommended before searching for flights",
+          "step": 1,
+          "timestamp": "2026-01-10T10:15:36.345678"
+        }
+      ]
+    },
+    {
+      "run_id": 3,
+      "task": "Plan a week-long vacation to London. I'm traveling from Boston and need the complete travel plan.",
+      "timestamp": "2026-01-10T10:16:00.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "London"
+          },
+          "output": "{\"city\": \"London\", \"condition\": \"rainy\", \"temperature\": 15, \"advice\": \"Weather is rainy with 15°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "London",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"London\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Comfort Stay\", \"price_per_night\": 140, \"rating\": 4.3}]}",
+          "order": 2
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Boston",
+            "destination": "London"
+          },
+          "output": "{\"origin\": \"Boston\", \"destination\": \"London\", \"flights\": [{\"airline\": \"CloudNine\", \"price\": 600, \"departure\": \"18:00\", \"duration\": \"6h\"}]}",
+          "order": 3
+        }
+      ],
+      "final_answer": "London weather is rainy at 15°C. Recommended hotel: Comfort Stay at $140/night. Flight: CloudNine at $600.",
+      "success": false,
+      "mistakes": [
+        {
+          "type": "wrong_sequence",
+          "description": "Hotels were recommended before searching for flights",
+          "step": 2,
+          "timestamp": "2026-01-10T10:16:01.234567"
+        }
+      ]
+    },
+    {
+      "run_id": 4,
+      "task": "Organize a 3-day trip to Dubai. Check weather, find flights from Miami, suggest hotels, and create an itinerary.",
+      "timestamp": "2026-01-10T10:16:30.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Dubai"
+          },
+          "output": "{\"city\": \"Dubai\", \"condition\": \"sunny\", \"temperature\": 30, \"advice\": \"Weather is sunny with 30°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Miami",
+            "destination": "Dubai"
+          },
+          "output": "{\"origin\": \"Miami\", \"destination\": \"Dubai\", \"flights\": [{\"airline\": \"AirTravel\", \"price\": 1200, \"departure\": \"22:00\", \"duration\": \"14h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Dubai",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Dubai\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Luxury Resort\", \"price_per_night\": 180, \"rating\": 4.7}]}",
+          "order": 3
+        }
+      ],
+      "final_answer": "Dubai trip plan: Sunny weather at 30°C. Flight: AirTravel $1200. Hotel: Luxury Resort $180/night.",
+      "success": false,
+      "mistakes": [
+        {
+          "type": "too_early_answer",
+          "description": "Agent provided final answer after only 3 tool calls",
+          "step": 3,
+          "timestamp": "2026-01-10T10:16:31.234567"
+        }
+      ]
+    },
+    {
+      "run_id": 5,
+      "task": "Help me plan a 6-day trip to Sydney, Australia from San Francisco. Full planning needed.",
+      "timestamp": "2026-01-10T10:17:00.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Sydney"
+          },
+          "output": "{\"city\": \"Sydney\", \"condition\": \"sunny\", \"temperature\": 25, \"advice\": \"Weather is sunny with 25°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "San Francisco",
+            "destination": "Sydney"
+          },
+          "output": "{\"origin\": \"San Francisco\", \"destination\": \"Sydney\", \"flights\": [{\"airline\": \"SkyHigh\", \"price\": 1500, \"departure\": \"10:00\", \"duration\": \"14h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Sydney",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Sydney\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Grand Hotel\", \"price_per_night\": 160, \"rating\": 4.4}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "Sydney",
+            "days": 6
+          },
+          "output": "{\"destination\": \"Sydney\", \"duration\": \"6 days\", \"itinerary\": [{\"Day 1\": [\"Visit Opera House\", \"Harbor Bridge\"]}, {\"Day 2\": [\"Bondi Beach\", \"Coastal walk\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "Complete Sydney plan: Sunny 25°C. Flight: SkyHigh $1500. Hotel: Grand Hotel $160/night. 6-day itinerary includes Opera House, Harbor Bridge, Bondi Beach, and more.",
+      "success": true,
+      "mistakes": []
+    },
+    {
+      "run_id": 6,
+      "task": "Help me plan a 5-day trip to Paris, France. I need to know about weather, flights from New York, hotels, and activities.",
+      "timestamp": "2026-01-10T10:17:30.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Paris"
+          },
+          "output": "{\"city\": \"Paris\", \"condition\": \"cloudy\", \"temperature\": 18, \"advice\": \"Weather is cloudy with 18°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "New York",
+            "destination": "Paris"
+          },
+          "output": "{\"origin\": \"New York\", \"destination\": \"Paris\", \"flights\": [{\"airline\": \"CloudNine\", \"price\": 550, \"departure\": \"20:00\", \"duration\": \"7h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Paris",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Paris\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"City View Inn\", \"price_per_night\": 145, \"rating\": 4.1}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "Paris",
+            "days": 5
+          },
+          "output": "{\"destination\": \"Paris\", \"duration\": \"5 days\", \"itinerary\": [{\"Day 1\": [\"Eiffel Tower\", \"Louvre Museum\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "Paris plan: Cloudy 18°C. Flight: CloudNine $550. Hotel: City View Inn $145/night. 5-day itinerary includes Eiffel Tower, Louvre, and more.",
+      "success": true,
+      "mistakes": []
+    },
+    {
+      "run_id": 7,
+      "task": "I want to visit Tokyo for 4 days. Please help me plan everything including weather check, flights from Los Angeles, accommodation, and itinerary.",
+      "timestamp": "2026-01-10T10:18:00.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Tokyo"
+          },
+          "output": "{\"city\": \"Tokyo\", \"condition\": \"rainy\", \"temperature\": 22, \"advice\": \"Weather is rainy with 22°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Los Angeles",
+            "destination": "Tokyo"
+          },
+          "output": "{\"origin\": \"Los Angeles\", \"destination\": \"Tokyo\", \"flights\": [{\"airline\": \"AirTravel\", \"price\": 850, \"departure\": \"16:00\", \"duration\": \"11h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Tokyo",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Tokyo\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Comfort Stay\", \"price_per_night\": 125, \"rating\": 4.6}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "Tokyo",
+            "days": 4
+          },
+          "output": "{\"destination\": \"Tokyo\", \"duration\": \"4 days\", \"itinerary\": [{\"Day 1\": [\"Shibuya Crossing\", \"Meiji Shrine\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "Tokyo plan: Rainy 22°C. Flight: AirTravel $850. Hotel: Comfort Stay $125/night. 4-day itinerary with cultural sites.",
+      "success": true,
+      "mistakes": []
+    },
+    {
+      "run_id": 8,
+      "task": "Plan a week-long vacation to London. I'm traveling from Boston and need the complete travel plan.",
+      "timestamp": "2026-01-10T10:18:30.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "London"
+          },
+          "output": "{\"city\": \"London\", \"condition\": \"cloudy\", \"temperature\": 14, \"advice\": \"Weather is cloudy with 14°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Boston",
+            "destination": "London"
+          },
+          "output": "{\"origin\": \"Boston\", \"destination\": \"London\", \"flights\": [{\"airline\": \"SkyHigh\", \"price\": 620, \"departure\": \"19:00\", \"duration\": \"6h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "London",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"London\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Luxury Resort\", \"price_per_night\": 155, \"rating\": 4.5}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "London",
+            "days": 7
+          },
+          "output": "{\"destination\": \"London\", \"duration\": \"7 days\", \"itinerary\": [{\"Day 1\": [\"Big Ben\", \"Tower of London\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "London plan: Cloudy 14°C. Flight: SkyHigh $620. Hotel: Luxury Resort $155/night. 7-day complete itinerary.",
+      "success": true,
+      "mistakes": []
+    },
+    {
+      "run_id": 9,
+      "task": "Organize a 3-day trip to Dubai. Check weather, find flights from Miami, suggest hotels, and create an itinerary.",
+      "timestamp": "2026-01-10T10:19:00.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Dubai"
+          },
+          "output": "{\"city\": \"Dubai\", \"condition\": \"sunny\", \"temperature\": 32, \"advice\": \"Weather is sunny with 32°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "Miami",
+            "destination": "Dubai"
+          },
+          "output": "{\"origin\": \"Miami\", \"destination\": \"Dubai\", \"flights\": [{\"airline\": \"CloudNine\", \"price\": 1150, \"departure\": \"23:00\", \"duration\": \"13h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Dubai",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Dubai\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"Grand Hotel\", \"price_per_night\": 175, \"rating\": 4.8}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "Dubai",
+            "days": 3
+          },
+          "output": "{\"destination\": \"Dubai\", \"duration\": \"3 days\", \"itinerary\": [{\"Day 1\": [\"Burj Khalifa\", \"Dubai Mall\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "Dubai plan: Sunny 32°C. Flight: CloudNine $1150. Hotel: Grand Hotel $175/night. 3-day complete itinerary.",
+      "success": true,
+      "mistakes": []
+    },
+    {
+      "run_id": 10,
+      "task": "Help me plan a 6-day trip to Sydney, Australia from San Francisco. Full planning needed.",
+      "timestamp": "2026-01-10T10:19:30.123456",
+      "tool_calls": [
+        {
+          "tool": "check_weather",
+          "arguments": {
+            "city": "Sydney"
+          },
+          "output": "{\"city\": \"Sydney\", \"condition\": \"sunny\", \"temperature\": 26, \"advice\": \"Weather is sunny with 26°C\"}",
+          "order": 1
+        },
+        {
+          "tool": "search_flights",
+          "arguments": {
+            "origin": "San Francisco",
+            "destination": "Sydney"
+          },
+          "output": "{\"origin\": \"San Francisco\", \"destination\": \"Sydney\", \"flights\": [{\"airline\": \"AirTravel\", \"price\": 1450, \"departure\": \"11:00\", \"duration\": \"15h\"}]}",
+          "order": 2
+        },
+        {
+          "tool": "recommend_hotels",
+          "arguments": {
+            "city": "Sydney",
+            "budget": "medium"
+          },
+          "output": "{\"city\": \"Sydney\", \"budget\": \"medium\", \"hotels\": [{\"name\": \"City View Inn\", \"price_per_night\": 165, \"rating\": 4.3}]}",
+          "order": 3
+        },
+        {
+          "tool": "create_itinerary",
+          "arguments": {
+            "destination": "Sydney",
+            "days": 6
+          },
+          "output": "{\"destination\": \"Sydney\", \"duration\": \"6 days\", \"itinerary\": [{\"Day 1\": [\"Opera House\", \"Harbor\"]}]}",
+          "order": 4
+        }
+      ],
+      "final_answer": "Sydney plan: Sunny 26°C. Flight: AirTravel $1450. Hotel: City View Inn $165/night. Complete 6-day itinerary provided.",
+      "success": true,
+      "mistakes": []
+    }
+  ]
+}

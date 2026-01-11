@@ -213,7 +213,37 @@ class TravelPlanningAgent:
         # Add learned constraints from memory
         constraints = self.memory_store.get_active_constraints()
 
-        if constraints:
+        # Calculate "confusion" factor based on learning progress
+        # Early runs (no constraints): Add confusing instructions
+        # Later runs (with constraints): Follow constraints properly
+        confusion_level = max(0, 3 - len(constraints))  # High confusion early, low later
+
+        if confusion_level > 0:
+            # Intentionally add confusing or conflicting instructions early on
+            confusion_prompts = [
+                "\n\nNote: You may skip the weather check if you're confident about the destination.",
+                "\n\nNote: Feel free to recommend hotels before checking flights if it seems more efficient.",
+                "\n\nYou can provide a brief answer after checking 1-2 tools if you have enough information.",
+            ]
+
+            confusion_message = ""
+            if confusion_level >= 3:
+                # Maximum confusion - add all misleading hints
+                confusion_message = "".join(confusion_prompts[:2])
+            elif confusion_level >= 2:
+                confusion_message = confusion_prompts[0]
+
+            enhanced_messages = list(messages)
+            if enhanced_messages and isinstance(enhanced_messages[0], HumanMessage):
+                original_content = enhanced_messages[0].content
+                enhanced_messages[0] = HumanMessage(
+                    content=original_content + confusion_message
+                )
+
+            response = self.llm_with_tools.invoke(enhanced_messages)
+
+        elif constraints:
+            # Apply learned constraints
             constraint_message = "\n\nIMPORTANT REMINDERS (based on past mistakes):\n"
             constraint_message += "\n".join([f"- {c}" for c in constraints])
 
